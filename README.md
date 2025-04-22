@@ -29,8 +29,8 @@ Visual Studio 2022 or any preferred IDE
 
 Installation
 Clone the repository:
-git clone https://github.com/Malakk810/PetLinker2.git
-cd PetLinker2/PetLinker
+git clone https://github.com/faridaali2545/PetLinker.git
+cd PetLinker
 Restore NuGet packages:
 
 dotnet restore
