@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Clinic Reservation";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-primary">Clinic Reservation</h1>
+    <p class="text-center lead">Book your clinic reservation below</p>
+
+
+    <div class="mt-4 mx-auto" style="max-width: 600px;">
+        <h2 class="text-secondary">Book a Reservation</h2>
+        <form id="reservationForm" class="mt-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required />
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Your Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter your phone number" required />
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Preferred Date and Time</label>
+                <input type="datetime-local" id="date" name="date" class="form-control" required />
+            </div>
+            <button type="button" id="bookButton" class="btn btn-success">Book Reservation</button>
+        </form>
+    </div>
+
+    <hr class="my-5" />
+
+
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Manage <b>Reservations</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Date and Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#bookButton").click(function () {
+            const name = $("#name").val();
+            const phone = $("#phone").val();
+            const date = $("#date").val();
+
+            if (name && phone && date) {
+                const newRow = `
+                            <tr>
+                                <td>${name}</td>
+                                <td>${phone}</td>
+                                <td>${new Date(date).toLocaleString()}</td>
+                                <td>
+                                    <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                    <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                </td>
+                            </tr>`;
+                $("#reservationTableBody").append(newRow);
+                $("#reservationForm")[0].reset();
+            } else {
+                alert("Please fill out all fields.");
+            }
+        });
+
+
+        $(document).on("click", ".edit", function () {
+            const row = $(this).parents("tr");
+            row.find("td:not(:last-child)").each(function () {
+                const value = $(this).text();
+                $(this).html(<input type="text" class="form-control" value="${value}">);
+            });
+            $(this).siblings(".delete").hide();
+            $(this).html(<i class="material-icons save">&#xE161;</i>);
+            $(this).removeClass("edit").addClass("save");
+        });
+
+
+        $(document).on("click", ".save", function () {
+            const row = $(this).parents("tr");
+            row.find("td:not(:last-child)").each(function () {
+                const input = $(this).find("input");
+                $(this).html(input.val());
+            });
+            $(this).siblings(".delete").show();
+            $(this).html(<i class="material-icons">&#xE254;</i>);
+            $(this).removeClass("save").addClass("edit");
+        });
+
+
+        $(document).on("click", ".delete", function () {
+            $(this).parents("tr").remove();
+        });
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Breed Information";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-primary">Breed Information</h1>
+    <p class="text-center lead">Select a pet type and breed to see information</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="petType" class="form-label">Pet Type</label>
+            <select id="petType" class="form-select" required>
+                <option value="">Select Pet Type</option>
+                @foreach (var petType in ViewBag.PetTypes)
+                {
+                    <option value="@petType">@petType</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="breed" class="form-label">Breed</label>
+            <select id="breed" class="form-select" required disabled>
+                <option value="">Select a breed</option>
+            </select>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <div id="breedDetails" class="text-center">
+        <h3 class="text-secondary">Breed Details</h3>
+        <img id="breedImage" src="" alt="" class="img-fluid mb-3" style="max-width: 300px;" />
+        <p id="breedDescription"></p>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#petType').change(function () {
+                const petType = $(this).val();
+
+                if (petType) {
+
+                    $.ajax({
+                        url: '@Url.Action("GetBreeds", "BreedInfo")',
+                        method: 'POST',
+                        data: { petType: petType },
+                        success: function (breeds) {
+                            let breedDropdown = $('#breed');
+                            breedDropdown.empty();
+                            breedDropdown.append('<option value="">Select a breed</option>');
+
+
+                            breeds.forEach(function (breed) {
+                                breedDropdown.append(<option value="${breed.Breed}">${breed.Breed}</option>);
+                            });
+
+                            breedDropdown.prop('disabled', false);
+                        }
+                    });
+                } else {
+                    $('#breed').prop('disabled', true);
+                    $('#breedDetails').hide();
+                }
+            });
+
+
+            $('#breed').change(function () {
+                const breed = $(this).val();
+
+                if (breed) {
+
+                    $.ajax({
+                        url: '@Url.Action("GetBreedDetails", "BreedInfo")',
+                        method: 'POST',
+                        data: { breed: breed },
+                        success: function (breedDetails) {
+                            if (breedDetails) {
+                                $('#breedImage').attr('src', breedDetails.ImageUrl);
+                                $('#breedDescription').text(breedDetails.Description);
+                                $('#breedDetails').show();
+                            }
+                        }
+                    });
+                } else {
+                    $('#breedDetails').hide();
+                }
+            });
+        });
+    </script>
+}

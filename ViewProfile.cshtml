@@ -1,0 +1,25 @@
+﻿@model PetLinker.Models.Pet
+
+@{
+    ViewData["Title"] = "Pet Profile";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">@Model.Breed</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Pet Details</h5>
+            <p class="card-text"><strong>Age:</strong> @Model.Age</p>
+            <p class="card-text"><strong>Gender:</strong> @Model.Gender</p>
+            <p class="card-text"><strong>Health Condition:</strong> @Model.HealthCondition</p>
+            <p class="card-text"><strong>Location:</strong> @Model.Location</p>
+            <p class="card-text"><strong>Status:</strong> @Model.Status</p>
+        </div>
+    </div>
+
+    <form method="get" action="@Url.Action("AdoptionQuiz", "Adopt", new { petId = @Model.Id })">
+        <button type="submit" class="btn btn-primary">Take Adoption Quiz</button>
+    </form>
+
+</div>

@@ -1,0 +1,63 @@
+﻿@model PetLinker.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Your Profile";
+}
+<body class="bg-danger text-white">
+    <div class="container mt-3">
+        <button href="/User/Dashboard" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashboardMenu" aria-controls="dashboardMenu">
+            ☰ Menu
+        </button>
+    </div>
+    <div class="offcanvas offcanvas-start text-pink" tabindex="-1" id="dashboardMenu" aria-labelledby="dashboardMenuLabel" style="background-color: #ff6f97;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fw-bold" id="dashboardMenuLabel">Your Dashboard</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+                    <a href="/Adopt/AdoptPet" class="text-decoration-none text-dark">Adopt A Pet</a>
+                </li>
+                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                    <a href="/Clinic/ReserveClinic" class="text-decoration-none text-dark">Reserve a Clinic</a>
+                </li>
+                <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+                    <a href="/MarketPlace/MarketPlace" class="text-decoration-none text-dark">Market Place</a>
+                </li>
+                <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                    <a href="/BreedInfo/BreedInfo" class="text-decoration-none text-dark">Breed Information</a>
+                </li>
+                <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+                    <a href="/PetActivity/Activity" class="text-decoration-none text-dark">Activity</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<div class="container mt-5">
+    <h1 class="text-center text-primary">@ViewData["Title"]</h1>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger mt-3">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    else if (Model != null)
+    {
+        <div class="card mx-auto mt-4" style="max-width: 600px;">
+            <div class="card-header text-white bg-primary">
+                <h4>@Model.Username's Profile</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Email:</strong> @Model.Email</p>
+                <p><strong>Status:</strong> @Model.Status</p>
+                @if (!string.IsNullOrEmpty(Model.Feedback))
+                {
+                    <p><strong>Feedback:</strong> @Model.Feedback</p>
+                }
+            </div>
+        </div>
+    }
+</div>

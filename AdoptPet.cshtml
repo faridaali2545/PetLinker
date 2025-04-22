@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PetLinker.Models.Pet>
+@{
+    ViewData["Title"] = "Adopt a Pet";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-primary">@ViewData["Title"]</h1>
+
+    <form method="get" action="/Adopt/AdoptPet" class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by name" />
+                    <select name="type" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Dog">Dog</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var pet in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Pet ID: @pet.Id</h5>
+                            <p class="card-text"><strong>Breed:</strong> @pet.Breed</p>
+                            <p class="card-text"><strong>Age:</strong> @pet.Age</p>
+                            <p class="card-text"><strong>Type:</strong> @pet.Type</p>
+                            <p class="card-text"><strong>Location:</strong> @pet.Location</p>
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                @if (pet.Status == "Free")
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                    <a href="@Url.Action( "ViewProfile","Adopt", new { id = pet.Id })" class="btn btn-success mt-2">Adopt</a>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Adopted</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center">No pets available.</p>
+            </div>
+        }
+    </div>
+</div>

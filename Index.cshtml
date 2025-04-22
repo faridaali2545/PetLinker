@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .full-screen-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+</style>
+
+<div class="container text-center mt-5">
+    <img src="/photos/petlinkerimage.jpg" class="full-screen-image" />
+
+
+
+    <h1 class="display-4 text-primary">Welcome to PetLinker!</h1>
+    <p class="lead">Find Your Pet</p>
+    <div class="mt-4">
+        <a href="/Account/Login" class="btn btn-primary btn-lg me-2">Login</a>
+        <a href="/Account/Register" class="btn btn-secondary btn-lg">Sign Up</a>
+    </div>
+</div>

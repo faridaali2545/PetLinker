@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Submit Feedback";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.SuccessMessage
+        </div>
+    }
+
+    <form method="post" action="@Url.Action("SubmitFeedback", "Profile")">
+        <div class="form-group">
+            <label for="message">Feedback Message</label>
+            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Submit Feedback</button>
+    </form>
+</div>

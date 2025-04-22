@@ -1,0 +1,52 @@
+﻿@using PetLinker
+@{
+    ViewData["Title"] = "Pet Activity";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-primary">@ViewData["Title"]</h1>
+
+    <form method="post" action="/PetActivity/RetrieveData" class="mt-4 mx-auto" style="max-width: 600px;">
+        <div class="mb-3">
+            <label for="location" class="form-label">Select Location</label>
+            <select id="location" name="location" class="form-select" required>
+                <option value="" disabled selected>Choose a location</option>
+                <option value="Tagmoa">Tagmoa</option>
+                <option value="6th of October">6th of October</option>
+                <option value="Nasr City">Nasr City</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Show Available Activities Around</button>
+    </form>
+
+    <!-- Section to display retrieved data -->
+    @if (ViewBag.PetActivities != null && ViewBag.PetActivities is IEnumerable<PetLinker.PetActivity> activities)
+    {
+        <div class="mt-5">
+            <h4>Pet Activities in @ViewBag.Location</h4>
+            <ul class="list-group">
+                @foreach (var activity in (IEnumerable<PetLinker.PetActivity>)ViewBag.PetActivities)
+                {
+                    <li class="list-group-item">
+                        <h5>@activity.ActivityName</h5>
+                        <p><strong>Type:</strong> @activity.ActivityType</p>
+                        <p><strong>Description:</strong> @activity.Description</p>
+                        <p><strong>Contact Info:</strong> @activity.ContactInfo</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="mt-5">
+            <p class="text-center">No activities found in this location.</p>
+        </div>
+    }
+
+
+
+    <div class="text-center mt-4">
+        <a href="/PetActivity/Activity" class="btn btn-primary">Go Back</a>
+    </div>
+</div>
